@@ -25,4 +25,4 @@ while True:
             new_msg = True
             full_msg = ''
 
-    print(full_msg) #
+    print(full_msg)
