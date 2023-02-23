@@ -20,4 +20,4 @@ while True:
         time.sleep(3)
         msg = f"The time is: {time.time()}"
         msg = f'{len(msg):<{HEADERSIZE}}' + msg # the < here means the message is left aligned
-        clientsocket.send(bytes(msg, "utf-8")) # info to be sent to the client
+        clientsocket.send(bytes(msg, "utf-8")) # info to be sent to the client #
