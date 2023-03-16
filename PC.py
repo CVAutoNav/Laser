@@ -8,7 +8,7 @@ HOST = socket.gethostbyname(socket.gethostname())
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #af_inet is ipv4, sock_stream is tcp
 sock.bind((HOST, 1234))
-# sock.listen(5) # queue of 5 if lots of communications come in at once
+sock.listen(5) # queue of 5 if lots of communications come in at once
 print(f"The servers IP is {HOST}, use this to connect the client.")
 clientsocket, address = sock.accept()
 print(f"Connection from {address} has been established!")
@@ -29,73 +29,82 @@ while True:
                 print(printing_msg)
                 Nano_msg = ''
                 #Switch WIFI Network to FARO SCENE
-                subprocess.run('netsh wlan connect name=LLS081915376', shell = True)
+                time.sleep(5)
+                subprocess.run('netsh wlan connect name=iPhone_13_Pro', shell = True)
 
                 #FARO API Trigger first scan, 360, -60, 90
+                print("Start scanning process")
 
                 #while not receive_First_Scan_Complete_Signal: 
                     #Idle here and do nothing 
+                time.sleep(5)
+
 
                 #Reveived scan complete signal: 1. change WIFI Network
-                subprocess.run('netsh wlan connect name=<Nano_WIFI>', shell = True) 
+                subprocess.run('netsh wlan connect name=Husky26', shell = True) 
 
                 #2. Rebuild PC Scaner connection 
                 HOST = socket.gethostbyname(socket.gethostname())#Need static IP Address
                 sock_after1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
                 sock_after1.bind((HOST, 1234))
+                sock.listen(5)
                 print(f"The PC's IP is {HOST}, Accepting Nano connections.")
                 clientsocket, address = sock.accept()
                 print(f"Connection from Nano IP {address} has been established!")
+                time.sleep(1)
 
                 #3. send message
                 clientsocket.send(bytes("1st_scanning_Done", "utf-8"))
-                print("1st_scanning_Done")
+                print("scanning Done message send to Nano")
                 clientsocket.send(bytes("1st_scanning_Done", "utf-8"))
+                print("All Tests Passed")
 
-            if Nano_msg == b'start_2nd_scanning':
+        break
+
+        #     if Nano_msg == b'start_2nd_scanning':
 
 
-                break
+        #         break
 
 
-                printing_msg = Nano_msg.decode("utf-8")
-                print("message received is:")
-                print(printing_msg)
-                Nano_msg = ''
-                #Switch WIFI Network to FARO SCENE
-                subprocess.run('netsh wlan connect name=LLS081915376', shell = True)
+        #         printing_msg = Nano_msg.decode("utf-8")
+        #         print("message received is:")
+        #         print(printing_msg)
+        #         Nano_msg = ''
+        #         #Switch WIFI Network to FARO SCENE
+        #         subprocess.run('netsh wlan connect name=LLS081915376', shell = True)
 
-                #FARO API Trigger first scan, 360, -60, 90
+        #         #FARO API Trigger first scan, 360, -60, 90
 
-                #while not receive_First_Scan_Complete_Signal: 
-                    #Idle here and do nothing 
+        #         #while not receive_First_Scan_Complete_Signal: 
+        #             #Idle here and do nothing 
 
-                #Reveived scan complete signal: 1. change WIFI Network
-                subprocess.run('netsh wlan connect name=<Nano_WIFI>', shell = True) 
+        #         #Reveived scan complete signal: 1. change WIFI Network
+        #         subprocess.run('netsh wlan connect name=<Nano_WIFI>', shell = True) 
 
-                #2. Rebuild PC Scaner connection 
-                HOST = socket.gethostbyname(socket.gethostname())#Need static IP Address
-                sock_after1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-                sock_after1.bind((HOST, 1234))
-                print(f"The PC's IP is {HOST}, Accepting Nano connections.")
-                clientsocket, address = sock.accept()
-                print(f"Connection from Nano IP {address} has been established!")
+        #         #2. Rebuild PC Scaner connection 
+        #         HOST = socket.gethostbyname(socket.gethostname())#Need static IP Address
+        #         sock_after1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        #         sock_after1.bind((HOST, 1234))
+        #         print(f"The PC's IP is {HOST}, Accepting Nano connections.")
+        #         clientsocket, address = sock.accept()
+        #         print(f"Connection from Nano IP {address} has been established!")
 
-                #3. send message
-                clientsocket.send(bytes("2nd_scanning_Done", "utf-8"))
-                print("2nd_scanning_Done")   
+        #         #3. send message
+        #         clientsocket.send(bytes("2nd_scanning_Done", "utf-8"))
+        #         print("2nd_scanning_Done")   
 
-            # if client_msg == b'start_2nd_scanning': 
-            #     printing_msg += client_msg.decode("utf-8")
-            #     print("message received is:")
-            #     print(printing_msg)
-            #     client_msg = ''
-            #     clientsocket.send(bytes("2nd_scanning_Done", "utf-8"))
-            #     print("sent message: 2nd_scanning_Done")
+        #     # if client_msg == b'start_2nd_scanning': 
+        #     #     printing_msg += client_msg.decode("utf-8")
+        #     #     print("message received is:")
+        #     #     print(printing_msg)
+        #     #     client_msg = ''
+        #     #     clientsocket.send(bytes("2nd_scanning_Done", "utf-8"))
+        #     #     print("sent message: 2nd_scanning_Done")
 
-            else: 
-                 print("Incorrect message received, please check configurations")
-                 break
+        #     else: 
+        #          print("Incorrect message received, please check configurations")
+        #          break
             
 
         
@@ -103,4 +112,4 @@ while True:
         
         
 
-        # time.sleep(3)
+        # # time.sleep(3)
